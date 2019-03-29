@@ -19,14 +19,11 @@ public class ServletSwaggerApiEndpoint{
 
     private DocumentationCache documentationCache;
     private ServiceModelToSwagger2Mapper mapper;
-    private SwaggerProperties swaggerProperties;
 
     public ServletSwaggerApiEndpoint(DocumentationCache documentationCache,
-                                      ServiceModelToSwagger2Mapper mapper,
-                                      SwaggerProperties swaggerProperties) {
+                                      ServiceModelToSwagger2Mapper mapper) {
         this.documentationCache = documentationCache;
         this.mapper = mapper;
-        this.swaggerProperties = swaggerProperties;
     }
 	
     @ReadOperation(produces = "application/json")
@@ -35,18 +32,10 @@ public class ServletSwaggerApiEndpoint{
         Documentation documentation = documentationCache.documentationByGroup(groupName);
         Swagger swagger = mapper.mapDocumentation(documentation);
 
-        if(Strings.isNullOrEmpty(swaggerProperties.getGatewayUrl())){
-            UriComponents uriComponents = componentsFrom(servletRequest, swagger.getBasePath());
-            swagger.basePath(Strings.isNullOrEmpty(uriComponents.getPath()) ? "/" : uriComponents.getPath());
-            swagger.setHost(uriComponents.getHost()+ ":" +uriComponents.getPort());
-        }else{
-            String basePathUri = swaggerProperties.getGatewayUrl()+ "/" +
-                    (Strings.isNullOrEmpty(swaggerProperties.getGatewayServerForward())? appName: swaggerProperties.getGatewayServerForward());
-            UriComponents uriComponents = UriComponentsBuilder.fromUriString(basePathUri).build();
-            swagger.basePath(Strings.isNullOrEmpty(uriComponents.getPath()) ? "/" : uriComponents.getPath());
-            swagger.setHost(uriComponents.getHost() + ":" + uriComponents.getPort());
-        }
-
+        UriComponents uriComponents = componentsFrom(servletRequest, swagger.getBasePath());
+        swagger.basePath(Strings.isNullOrEmpty(uriComponents.getPath()) ? "/" : uriComponents.getPath());
+        swagger.setHost(uriComponents.getHost()+ ":" +uriComponents.getPort());
+        
         return swagger;
     }
 }
