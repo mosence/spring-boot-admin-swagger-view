@@ -10,10 +10,7 @@
     "vue": "^2.5.16"
   },
   "dependencies": {
-    "eslint": "^4.19.1",
-    "save": "^2.3.3",
-    "swagger-ui": "^3.22.0",
-    "vue": "^2.5.16"
+    "swagger-ui": "^3.22.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.1",
