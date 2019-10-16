@@ -10,7 +10,7 @@
     "vue": "^2.5.16"
   },
   "dependencies": {
-    "swagger-ui": "^3.22.3"
+    "swagger-ui": "^3.23.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.8.0",
